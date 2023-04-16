@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Automobile Parts Management System</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <a class="navbar-brand" href="#"><i class="fas fa-car fa-2x"></i> <b style="font-size:30px;">Apna Autos</b></a>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="/index"><i class="fas fa-home fa-2x"></i> Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/insertdata"><i class="fas fa-warehouse fa-2x"></i> Stock</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/garage"><i class="fas fa-database fa-2x"></i> Garage</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <br>
+  <br>
+  <br>
+  <br>
+  <center><i class="fas fa-car fa-8x"></i></center>
+  <br>
+  <div style=" margin-left: 250px; margin-right: 250px;">
+	<div class="container mt-5" >
+	<form  action="/garage" method="post">{%csrf_token%}
+		<table class="table table-bordered">
+		  <thead>
+			<tr>
+			  <th>Car Brand</th>
+			  <th>Car Name</th>
+			  <th>Model</th>
+			</tr>
+		  </thead>
+		  <tbody>
+			<tr>
+			  <td><input type="text" class="form-control" id = "listofbrands" list="Brands" autofocus
+				 placeholder="Enter Brand" name ="brand" autocomplete="off" value="{{brand}}">
+				 </td>
+			  <datalist id = "Brands">
+				{%for brand in Brands%}
+				<option value="{{brand.name}}"></option>
+				{% endfor %}
+			  </datalist>
+
+			  <td><input type="text" class="form-control" id = "listofcars" list = "Cars"
+				 placeholder="Enter Car" name="car" autocomplete="off" value="{{car}}" autofocus
+				 ></td>
+			  <datalist id = "Cars">
+				{%for car in Cars%}
+				<option value={{car.name}}></option>
+				{% endfor %}
+			  </datalist>
+
+			  <td><input type="text" class="form-control" id = "listofyears" list = "Type"
+				 placeholder="Enter Car Type" name="type" autocomplete="off" value="{{type}}" autofocus
+			   ></td>
+			  <datalist id = "Type">
+				{%for type in Type%}
+				<option value={{type.name}}></option>
+				{% endfor %}
+			  </datalist>
+			</tr>
+
+			</tbody>
+			</table>
+			<button class="btn btn-primary" type="submit">Submit</button>
+          </form>
+		<br>
+		<table class="table table-bordered">
+
+		<thead>
+		<tr>
+			<th>SR.no</th>
+		  <th>Car Brand</th>
+		  <th>Car Name</th>
+		  <th>Type</th>
+		  <th>Part</th>
+		  <th>Quantity</th>
+		  <th>Price</th>
+		</tr>
+		</thead>
+		<tbody>
+		{% for row in table_data %}
+		<tr>
+			<td>{{row.no}}</td>
+		  <td>{{row.brand}}</td>
+		  <td>{{ row.car }}</td>
+		  <td>{{ row.type }}</td>
+		  <td>{{ row.item }}</td>
+		  <td>{{ row.quantity }}</td>
+		  <td>{{ row.price }}</td>
+		</tr>
+		{% endfor %}
+	  </tbody>
+    </table>
+	</div>
+	</div>
+</body>
+</html>

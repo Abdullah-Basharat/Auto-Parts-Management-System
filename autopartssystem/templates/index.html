@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Automobile Parts Management System</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <a class="navbar-brand" href="/admin"><i class="fas fa-car fa-2x"></i> <b style="font-size:30px;">Apna Autos</b></a>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="/index"><i class="fas fa-home fa-2x"></i> Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/insertdata"><i class="fas fa-warehouse fa-2x"></i> Stock</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/garage"><i class="fas fa-database fa-2x"></i> Garage</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <br>
+  <br>
+  <br>
+  <br>
+  <center><i class="fas fa-car fa-8x"></i></center>
+  <br>
+<div style=" margin-left: 250px; margin-right: 250px;">
+	<div class="container mt-5" >
+    <form method="post" action="/bill" id="my-form">{% csrf_token %}
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Car Brand</th>
+          <th>Car Name</th>
+          <th>Type</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><input type="text" class="form-control" id = "listofbrands" list="Brands"
+             placeholder="Enter Brand" name ="brand" autocomplete="off"
+             required="True" value="{{brand}}" autofocus>
+			 </td>
+          <datalist id = "Brands">
+            {%for brand in Brands%}
+            <option value="{{brand.name}}"></option>
+            {% endfor %}
+          </datalist>
+
+          <td><input type="text" class="form-control" id = "listofcars" list = "Cars"
+             placeholder="Enter Car" name="car" autocomplete="off" required="True" value="{{car}}" >
+            </td>
+          <datalist id = "Cars">
+            {%for car in Cars%}
+            <option value={{car.name}}></option>
+            {% endfor %}
+          </datalist>
+
+          <td><input type="text" class="form-control" id = "listofyears" list = "Type"
+				 placeholder="Enter Car Type" name="type" autocomplete="off" value="{{type}}" required="True"
+			   ></td>
+          <datalist id = "Type">
+            {%for types in Type%}
+            <option value={{types.name}}></option>
+            {% endfor %}
+          </datalist>
+
+        </tr>
+		</tbody>
+		</table>
+
+    </div>
+
+	<div class="container mt-4">
+	<table class="table table-bordered" id="my-table">
+	  <thead>
+		<tr>
+		  <th>Item</th>
+		  <th>Quantity</th>
+		  <th>Price</th>
+		</tr>
+	  </thead>
+	  <tbody>
+		<tr>
+		  <td><input type="text" value="{{item}}" id = "listofitems" list = "Items"
+					 class="form-control"
+					 placeholder="Enter Item" autocomplete="off" required="True"
+			name="item"></td>
+		  <datalist id = "Items">
+			{%for item in Items%}
+			<option value={{item.name}}></option>
+			{% endfor %}
+		  </datalist>
+
+		  <td><input type="number" class="form-control" placeholder="Enter Quantity" name="quantity" min="0" required="True"></td>
+		  <td><input type="number" class="form-control" placeholder="Enter Price" name="price" min="0" required="True"></td>
+		</tr>
+
+
+	  </tbody>
+	</table>
+    
+    <button id="add-row" onclick="addRow()" type="button" class="btn btn-primary">Add Row</button>
+    <button type="submit" class="btn btn-primary"> Submit</button>
+
+    </form>
+	</div>
+</div>
+
+<script>
+  function addRow() {
+    // Get the table and tbody elements
+    var table = document.getElementById("my-table");
+    var tbody = table.getElementsByTagName("tbody")[0];
+
+    var lastRow = tbody.rows[tbody.rows.length - 1];
+    var lastcell1 = lastRow.cells[0];
+    var lastcell2 = lastRow.cells[1];
+    var lastcell3 = lastRow.cells[2];
+
+    // Create a new row and cells
+    var newRow = tbody.insertRow(-1);
+    var cell1 = newRow.insertCell(0);
+    var cell2 = newRow.insertCell(1);
+    var cell3 = newRow.insertCell(2);
+
+    // Add inputs to the cells
+    cell1.innerHTML = lastcell1.innerHTML;
+    cell2.innerHTML = lastcell2.innerHTML;
+    cell3.innerHTML = lastcell3.innerHTML;
+
+
+
+    // Set the focus to the first input in the new row
+    cell1.getElementsByTagName("input")[0].focus();
+}
+
+// Add an event listener to the form submit event
+document.getElementById("my-form").addEventListener("submit", function() {
+    // Get all the inputs in the table
+    var tableInputs = document.querySelectorAll("#my-table input");
+
+    // Create hidden form fields for each input and add them to the form
+    for (var i = 0; i < tableInputs.length; i++) {
+        var input = tableInputs[i];
+        var hiddenField = document.createElement("input");
+        hiddenField.type = "hidden";
+        hiddenField.name = input.name;
+        hiddenField.value = input.value;
+        this.appendChild(hiddenField);
+    }
+});
+
+
+</script>
+</body>
+</html>
+
